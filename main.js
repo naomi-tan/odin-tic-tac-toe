@@ -1,9 +1,3 @@
-// You’re going to store the gameboard as an array inside of a Gameboard object, so start there! Your players are also going to be stored in objects, and you’re probably going to want an object to control the flow of the game itself.
-
-// Your main goal here is to have as little global code as possible. Try tucking as much as you can inside factories. If you only need a single instance of something (e.g. the gameboard, the displayController etc.) then wrap the factory inside an IIFE (module pattern) so it cannot be reused to create additional instances.
-
-// In this project, think carefully about where each bit of logic should reside. Each little piece of functionality should be able to fit in the game, player or gameboard objects. Take care to put them in “logical” places. Spending a little time brainstorming here can make your life much easier later!
-
 // Module pattern
 const gameboard = (function() { // Store gameboard state
     const gameboard = [
@@ -21,7 +15,7 @@ function createPlayer(playerName, playerMarker) { // Store player
 }
 
 // Module pattern
-const game = (function() { // Game functions
+const GameController = (function() { // Game functions
     let _turn;
     const createPlayers = function() {
         _turn = true;
@@ -47,9 +41,13 @@ const game = (function() { // Game functions
         };
         console.table(displayBoard);
     };
-    const turn = function(){
+    const playRound = function(){
         player = _turn ? players[0] : players[1];
-        coords = prompt(`${player.name}, enter coordinates of your next move`).split('');
+        input = prompt(`${player.name}, enter coordinates of your next move`)
+        while(input == null) {
+            input = prompt(`${player.name}, enter coordinates of your next move`)
+        };
+        coords = input.split('');
         let row;
         let col;
         for (let coord of coords) {
@@ -63,20 +61,39 @@ const game = (function() { // Game functions
                 case 'C':
                     col = 2;
                     break;
+                case '1':
+                    row = 0;
+                    break;
+                case '2':
+                    row = 1;
+                    break;
+                case '3':
+                    row = 2;
+                    break;
                 default:
-                    row = coord - 1;
+                    console.log('Invalid coordinates entered.');
+                    break;
             };
         };
-        gameboard.gameboard[row][col] = player.marker; // update gameboard
-        _turn = !_turn;
+        if (row != null && col != null) {
+            if (gameboard.gameboard[row][col] == '-'){
+                gameboard.gameboard[row][col] = player.marker; // update gameboard
+                _turn = !_turn;
+            }
+            else {
+                console.log('This space is taken, please choose another.');
+            }
+        }
     };
     const checkWin = function(gameboard){
         let win = false;
+        let playerWin;
         let cols = [[],[],[]];
         for (let row of gameboard) { // check rows
             n = row.filter(cell => cell==row[0] && cell!='-').length;
             if (n == 3) {
                 win = true;
+                playerWin = _winningPlayer(row[0]);
             };
             let i = 0;
             for (let cell of row) {
@@ -88,23 +105,48 @@ const game = (function() { // Game functions
             n = col.filter(cell => cell==col[0] && cell!='-').length;
             if (n == 3) {
                 win = true;
+                playerWin = _winningPlayer(col[0]);
             };
         };
         if ((gameboard[0][0] == gameboard[1][1]) && (gameboard[1][1] == gameboard[2][2]) && gameboard[1][1]!='-') { // check diagonals
             win = true;
+            playerWin = _winningPlayer(gameboard[1][1]);
         }
         if ((gameboard[0][2] == gameboard[1][1]) && (gameboard[1][1] == gameboard[2][0]) && gameboard[1][1]!='-') {
             win = true;
+            playerWin = _winningPlayer(gameboard[1][1]);
+        }
+        if (![].concat(...gameboard).find((item) => item == '-') && !win) { // check draw
+            console.log(`It's a draw!`);
+        }
+        if (win) {
+            console.log(`${playerWin.name} wins!`);
         }
         return win;
     };
-    return {createPlayers, consoleDisplay, turn, checkWin};
+    const _winningPlayer = function(marker) {
+        if (players[0].marker == marker) {
+            playerWin = players[0];
+        }
+        else {
+            playerWin = players[1];
+        }
+        return playerWin;
+    };
+    return {createPlayers, consoleDisplay, playRound, checkWin};
 })(); // IIFE
 
-players = game.createPlayers();
-game.consoleDisplay(gameboard.gameboard);
+// Module Pattern
+const displayController = (function(){
+    const updateDisplay = function(){};
+    const clickHandler = function(){};
+    return {updateDisplay, clickHandler};
+})(); // IIFE
 
-while(game.checkWin(gameboard.gameboard)==false) {
-    game.turn();
-    game.consoleDisplay(gameboard.gameboard);
+players = GameController.createPlayers();
+GameController.consoleDisplay(gameboard.gameboard);
+
+while(GameController.checkWin(gameboard.gameboard)==false) {
+    GameController.playRound();
+    GameController.consoleDisplay(gameboard.gameboard);
 }
