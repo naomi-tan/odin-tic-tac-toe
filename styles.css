@@ -1,0 +1,92 @@
+body {
+    background-image: linear-gradient(white, antiquewhite);
+    height: 100vh;
+}
+
+h1 {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 5ch;
+    letter-spacing: 1ch;
+    color: gray;
+}
+
+.container {
+    display: grid;
+    justify-content: center;
+    gap: 5vh;
+}
+
+.gameboard {
+    height: 60vh;
+    aspect-ratio: 1 / 1;
+    justify-self: center;
+    display: grid;
+    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+}
+
+.cell {
+    border: lightgray 0.3ch;
+}
+
+.cell1 { 
+    border-style: none solid solid none; /*top, right, bottom, left*/
+}
+
+.cell2 { 
+    border-style: none solid solid solid; /*top, right, bottom, left*/
+}
+
+.cell3 { 
+    border-style: none none solid solid; /*top, right, bottom, left*/
+}
+
+.cell4 { 
+    border-style: solid solid solid none; /*top, right, bottom, left*/
+}
+
+.cell5 { 
+    border-style: solid; /*top, right, bottom, left*/
+}
+
+.cell6 { 
+    border-style: solid none solid solid; /*top, right, bottom, left*/
+}
+
+.cell7 { 
+    border-style: solid solid none none; /*top, right, bottom, left*/
+}
+
+.cell8 { 
+    border-style: solid solid none solid; /*top, right, bottom, left*/
+}
+
+.cell9 { 
+    border-style: solid none none solid; /*top, right, bottom, left*/
+}
+
+.button {
+    background-color: rgba(0,0,0,0);
+    border-style: none;
+    height: 100%;
+    width: 100%;
+}
+
+.button:hover {
+    --player-color: lightblue;
+    --player-color: lightpink;
+    background-color: var(--player-color);
+}
+
+.reset {
+    border: solid gray 0.1ch;
+    color: gray;
+    background-color: white;
+    padding: 1ch;
+    width: fit-content;
+    justify-self: center;
+}
+
+.reset:hover{
+    border: solid gray 0.3ch;
+    background-color: wheat;
+}

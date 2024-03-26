@@ -138,15 +138,15 @@ const GameController = (function() { // Game functions
 
 // Module Pattern
 const displayController = (function(){
-    const updateDisplay = function(){};
-    const clickHandler = function(){};
+    const updateDisplay = function(gameboard) {};
+    const clickHandler = function() {};
     return {updateDisplay, clickHandler};
 })(); // IIFE
 
-players = GameController.createPlayers();
-GameController.consoleDisplay(gameboard.gameboard);
+// players = GameController.createPlayers();
+// GameController.consoleDisplay(gameboard.gameboard);
 
-while(GameController.checkWin(gameboard.gameboard)==false) {
-    GameController.playRound();
-    GameController.consoleDisplay(gameboard.gameboard);
-}
+// while(GameController.checkWin(gameboard.gameboard)==false) {
+//     GameController.playRound();
+//     GameController.consoleDisplay(gameboard.gameboard);
+// }
