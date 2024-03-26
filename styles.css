@@ -1,6 +1,23 @@
 body {
     background-image: linear-gradient(white, antiquewhite);
     height: 100vh;
+    box-sizing: border-box;
+}
+
+dialog {
+    background-color: white;
+    padding: 5vh 10vh;
+    margin: 20% auto;
+    height: 30%
+}
+
+label {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+form {
+    display: grid;
+    gap: 1ch;
 }
 
 h1 {
@@ -64,29 +81,47 @@ h1 {
     border-style: solid none none solid; /*top, right, bottom, left*/
 }
 
-.button {
+.cell-button {
     background-color: rgba(0,0,0,0);
     border-style: none;
     height: 100%;
     width: 100%;
 }
 
-.button:hover {
-    --player-color: lightblue;
+.cell-button:hover {
     --player-color: lightpink;
+    --player-marker: url('imgs/x.svg');
     background-color: var(--player-color);
+    background-image: var(--player-marker);
+    background-size: cover;
+    opacity: 0.3;
 }
 
-.reset {
+.x {
+    background-color: lightpink;
+    background-image: url(imgs/x.svg);
+    background-size: cover;
+    opacity: 0.7;
+}
+
+.o {
+    background-color: lightblue;
+    background-image: url(imgs/o.svg);
+    background-size: cover;
+    opacity: 0.5;
+}
+
+.button {
     border: solid gray 0.1ch;
     color: gray;
     background-color: white;
     padding: 1ch;
+    margin: 2ch 0ch 0ch;
     width: fit-content;
     justify-self: center;
 }
 
-.reset:hover{
+.button:hover{
     border: solid gray 0.3ch;
     background-color: wheat;
 }

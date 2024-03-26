@@ -3,7 +3,8 @@ const gameboard = (function() { // Store gameboard state
     const gameboard = [
         ['-','-','-'],
         ['-','-','-'],
-        ['-','-','-']];
+        ['-','-','-']
+    ];
     return {gameboard};
 })(); // IIFE
 
@@ -17,16 +18,9 @@ function createPlayer(playerName, playerMarker) { // Store player
 // Module pattern
 const GameController = (function() { // Game functions
     let _turn;
-    const createPlayers = function() {
+    const init = function() {
+        console.log('Running GameController.init')
         _turn = true;
-        const markers = ['X', 'O'];
-        let players = [];
-        for (let i = 0; i < 2; i++) {
-            playerName = prompt(`Player ${i+1} name:`);
-            players[i] = createPlayer(playerName, markers[i]);
-        };
-        console.log(players);
-        return players;
     };
     const consoleDisplay = function(gameboard) {
         displayBoard = [['-','A','B','C'],]
@@ -133,20 +127,77 @@ const GameController = (function() { // Game functions
         }
         return playerWin;
     };
-    return {createPlayers, consoleDisplay, playRound, checkWin};
+    return {init, consoleDisplay, playRound, checkWin};
 })(); // IIFE
 
 // Module Pattern
-const displayController = (function(){
-    const updateDisplay = function(gameboard) {};
-    const clickHandler = function() {};
-    return {updateDisplay, clickHandler};
+const DisplayController = (function(){
+    const init = function() {
+        console.log('Running DisplayController.init');
+        _cacheDom();
+        gameboard.gameboard = [
+            ['-','-','-'],
+            ['-','-','-'],
+            ['-','-','-']
+        ];
+        render(gameboard.gameboard);
+    };
+    const _cacheDom = function() {
+        console.log('Running DisplayController.cachDom')
+        this.dialog = document.querySelector('dialog');
+        this.player1Input = document.querySelector('#player1');
+        this.player2Input = document.querySelector('#player2');
+        this.dialogSubmit = document.querySelector('.submit');
+        this.gameboardContainer = document.querySelector('.gameboard');
+        this.cellButtons = document.querySelectorAll('.cell-button');
+    };
+    const _clickHandler = function() {};
+    const playerDialog = function() {
+        console.log('Running DisplayController.playerDialog')
+        let Players = [];
+        dialog.showModal();
+        dialogSubmit.addEventListener('click', (e) => {
+            e.preventDefault();
+            const names = [player1Input.value, player2Input.value];
+            const markers = ['X', 'O'];
+            for (let i = 0; i < 2; i++) {
+                 Players[i] = createPlayer(names[i], markers[i]);
+                 console.log(`    ${names[i]} (${markers[i]}) created`)
+             };
+            dialog.close();
+        });
+        return Players;
+    };
+    const render = function(gameboard) {
+        console.log('Running DisplayController.render')
+        gameboardFlat = [].concat(...gameboard);
+        let i = 0;
+        for (let cell of gameboardFlat) {
+            if (cell == '-') {
+                // remove class x and o from button
+                cellButtons[i].classList.remove('x');
+                cellButtons[i].classList.remove('o');
+            }
+            else if (cell == 'X') {
+                // add class x to button
+                cellButtons[i].classList.add('x');
+            }
+            else {
+                // add class o to button
+                cellButtons[i].classList.add('o');
+            }
+            i++;
+        }
+    };
+    return {init, playerDialog, render};
 })(); // IIFE
 
-// players = GameController.createPlayers();
-// GameController.consoleDisplay(gameboard.gameboard);
+GameController.init();
+DisplayController.init();
+
+Players = DisplayController.playerDialog();
 
 // while(GameController.checkWin(gameboard.gameboard)==false) {
 //     GameController.playRound();
-//     GameController.consoleDisplay(gameboard.gameboard);
+//     DisplayController.render();
 // }

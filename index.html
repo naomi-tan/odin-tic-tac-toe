@@ -9,18 +9,27 @@
 <body>
     <div class="container">
         <h1>Tic-Tac-Toe</h1>
+        <dialog>
+            <form method="dialog">
+                <label for="player1">Player 1 Name:</label>
+                <input type="text" id="player1">
+                <label for="player2">Player 2 Name:</label>
+                <input type="text" id="player2">
+                <button class="button submit" type="submit">Ok</button>
+            </form>
+        </dialog>
         <div class="gameboard">
-            <div class="cell cell1"><button class="button button1"></button></div>
-            <div class="cell cell2"><button class="button button2"></button></div>
-            <div class="cell cell3"><button class="button button3"></button></div>
-            <div class="cell cell4"><button class="button button4"></button></div>
-            <div class="cell cell5"><button class="button button5"></button></div>
-            <div class="cell cell6"><button class="button button6"></button></div>
-            <div class="cell cell7"><button class="button button7"></button></div>
-            <div class="cell cell8"><button class="button button8"></button></div>
-            <div class="cell cell9"><button class="button button9"></button></div>
+            <div class="cell cell1"><button class="cell-button cell-button1"></button></div>
+            <div class="cell cell2"><button class="cell-button cell-button2"></button></div>
+            <div class="cell cell3"><button class="cell-button cell-button3"></button></div>
+            <div class="cell cell4"><button class="cell-button cell-button4"></button></div>
+            <div class="cell cell5"><button class="cell-button cell-button5"></button></div>
+            <div class="cell cell6"><button class="cell-button cell-button6"></button></div>
+            <div class="cell cell7"><button class="cell-button cell-button7"></button></div>
+            <div class="cell cell8"><button class="cell-button cell-button8"></button></div>
+            <div class="cell cell9"><button class="cell-button cell-button9"></button></div>
         </div>
-        <button class="reset">Reset Game</button>
+        <button class="button">Reset Game</button>
     </div>
     <script src="script.js"></script>
 </body>
