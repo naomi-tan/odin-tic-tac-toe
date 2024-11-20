@@ -35,7 +35,9 @@ const GameController = (function() { // Game functions
         }
         else {
             console.log('This space is taken, please choose another.');
+            DisplayController.displayError();
         }
+        checkWin();
     };
     const checkWin = function(){
         let win = false;
@@ -70,9 +72,11 @@ const GameController = (function() { // Game functions
         }
         if (![].concat(...gameboard.gameboard).find((item) => item == '-') && !win) { // check draw
             console.log(`It's a draw!`);
+            DisplayController.displayWinner(`It's a draw!`);
         }
         if (win) {
             console.log(`${playerWin.name} wins!`);
+            DisplayController.displayWinner(`${playerWin.name} wins!`);
         }
         return win;
     };
@@ -103,16 +107,27 @@ const DisplayController = (function(){
     };
     const _cacheDom = function() {
         console.log('Running DisplayController.cachDom')
-        this.dialog = document.querySelector('dialog');
+        this.dialog = document.querySelector('.player-dialog');
+        this.form = document.querySelector('.form');
         this.player1Input = document.querySelector('#player1');
         this.player2Input = document.querySelector('#player2');
         this.dialogSubmit = document.querySelector('.submit');
         this.gameboardContainer = document.querySelector('.gameboard');
         this.cellButtons = document.querySelectorAll('.cell-button');
+        this.dialogWin = document.querySelector('.win-dialog');
+        this.dialogWinText = document.querySelector('.win-text');
+        this.dialogWinOk = document.querySelector('.win-ok');
+        this.dialogErr = document.querySelector('.err-dialog');
+        this.dialogErrText = document.querySelector('.err-text');
+        this.dialogErrOk = document.querySelector('.err-ok');
+        this.reset = document.querySelector('.reset');
     };
     const _bindEvents = function() {
         this.dialogSubmit.addEventListener('click', _submitPlayers);
         this.gameboardContainer.addEventListener('click', _selectCell);
+        this.reset.addEventListener('click', resetGame);
+        this.dialogWinOk.addEventListener('click', resetGame);
+        this.dialogErrOk.addEventListener('click', () => {dialogErr.close()});
     };
     const _submitPlayers = function(e) {
         e.preventDefault();
@@ -122,6 +137,7 @@ const DisplayController = (function(){
                 gameboard.players[i] = createPlayer(names[i], markers[i]);
                 console.log(`    ${names[i]} (${markers[i]}) created`)
             };
+        form.reset();
         dialog.close();
     };
     const _selectCell = function(e) {
@@ -130,7 +146,11 @@ const DisplayController = (function(){
         col = cellIndex % 3;
         GameController.playRound(row, col);
         render();
-        GameController.checkWin();
+    };
+    const resetGame = function() {
+        GameController.init();
+        DisplayController.init();
+        DisplayController.playerDialog();
     };
     const playerDialog = function() {
         console.log('Running DisplayController.playerDialog')
@@ -157,12 +177,15 @@ const DisplayController = (function(){
             i++;
         }
     };
-    return {init, playerDialog, render};
+    const displayWinner = function(message) {
+        dialogWinText.textContent = message;
+        dialogWin.showModal();
+    };
+    const displayError = function() {
+        dialogErrText.textContent = 'Error: This space is taken, please choose another';
+        dialogErr.showModal();
+    };
+    return {resetGame, init, playerDialog, render, displayWinner, displayError};
 })(); // IIFE
 
-// console.table(gameboard.gameboard)
-
-GameController.init();
-DisplayController.init();
-
-DisplayController.playerDialog();
+DisplayController.resetGame();

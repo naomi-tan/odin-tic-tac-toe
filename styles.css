@@ -7,15 +7,12 @@ body {
 dialog {
     background-color: white;
     padding: 5vh 10vh;
-    margin: 20% auto;
-    height: 30%
-}
-
-label {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 10% auto;
+    height: max-content;
 }
 
 form {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: grid;
     gap: 1ch;
 }
@@ -124,4 +121,10 @@ h1 {
 .button:hover{
     border: solid gray 0.3ch;
     background-color: wheat;
+}
+
+.reset {
+    width: max-content;
+    justify-self: center;
+    padding: 2ch;
 }

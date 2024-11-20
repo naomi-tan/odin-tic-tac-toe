@@ -9,8 +9,8 @@
 <body>
     <div class="container">
         <h1>Tic-Tac-Toe</h1>
-        <dialog>
-            <form method="dialog">
+        <dialog class="player-dialog">
+            <form method="dialog" class="form">
                 <label for="player1">Player 1 Name:</label>
                 <input type="text" id="player1">
                 <label for="player2">Player 2 Name:</label>
@@ -29,7 +29,19 @@
             <div class="cell cell8"><button class="cell-button cell-button8"></button></div>
             <div class="cell cell9"><button class="cell-button cell-button9"></button></div>
         </div>
-        <button class="button">Reset Game</button>
+        <button class="reset">Reset Game</button>
+        <dialog class="err-dialog">
+            <form method="dialog">
+                <div class="err-text"></div>
+                <button class="button submit err-ok" type="submit">Ok</button>
+            </form>
+        </dialog>
+        <dialog class="win-dialog">
+            <form method="dialog">
+                <div class="win-text"></div>
+                <button class="button submit win-ok" type="submit">Ok</button>
+            </form>
+        </dialog>
     </div>
     <script src="script.js"></script>
 </body>
